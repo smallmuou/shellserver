@@ -2,7 +2,7 @@
 
 > ShellServer is a server to execute shell command over http request. With it, you can operate remote pc like local pc.
 
-## Startup
+## Startup (server)
 
 ```bash
 git clone https://github.com/smallmuou/shellserver
@@ -11,7 +11,7 @@ cd shellserver
 ```
 PS: default port is 8000
 
-## Usage
+## Usage (client)
 
 ```bash
 curl -X POST http://serverip:port/cgi-bin/cmd.cgi -d 'your shell cmd'
