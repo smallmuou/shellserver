@@ -7,7 +7,7 @@
 ```bash
 git clone https://github.com/smallmuou/shellserver
 cd shellserver
-./startup 8888
+./startup 1234
 ```
 PS: default port is 8000
 
