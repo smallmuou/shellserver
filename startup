@@ -144,9 +144,10 @@ info 'Start shellserver... '
 if [ -z "$username" ];then
     $bin -ports $port
 else
-    rm -rf .htpasswd
-    $bin -A .htpasswd localhost $username $password
-    $bin -auth_gpass .htpasswd -auth_realm localhost -ports $port
+    pwdfile=/tmp/.htpasswd
+    rm -rf $pwdfile
+    $bin -A $pwdfile localhost $username $password
+    $bin -auth_gpass $pwdfile -auth_realm localhost -ports $port
 fi
 
 
