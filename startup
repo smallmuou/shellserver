@@ -84,17 +84,24 @@ DESCRIPTION:
     port - assign http port.
 
 OPTIONS:
-    -h          Show this help message and exit
+    -h      Show this help message and exit
+    -a      username:password
 
 EOF
 exit 1
 }
 
-while getopts 'h' arg; do
+while getopts 'ha:' arg; do
     case $arg in
         h)
             usage
             ;;
+        a)
+           username=`echo -n $OPTARG|awk -F: '{print $1}'`
+           password=`echo -n $OPTARG|awk -F: '{print $2}'`
+           [ -z "$username" ] && usage
+           [ -z "$password" ] && usage
+           ;;
         ?)
             usage
             ;;
@@ -109,6 +116,7 @@ port=8000
 #########################################
 ###            MAIN ENTRY             ###
 #########################################
+
 
 build() {
     os=`myos`
@@ -132,5 +140,13 @@ fi
 [ ! -f $bin ] && { error 'Can not build mongoose.'; exit -1; }
 
 info 'Start shellserver... '
-$bin -ports $port
+
+if [ -z "$username" ];then
+    $bin -ports $port
+else
+    rm -rf .htpasswd
+    $bin -A .htpasswd localhost $username $password
+    $bin -auth_gpass .htpasswd -auth_realm localhost -ports $port
+fi
+
 
